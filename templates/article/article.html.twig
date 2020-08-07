@@ -22,4 +22,25 @@
             </div>
         </div>
     </div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-6">
+                {% if comments is not empty %}
+                    <h2>Comments</h2>
+                    {% for comment in comments %}
+                        <div class="media mt-5 mb-5">
+                            <img style="width:50px;" class="mr-3" src="{{ comment.getUser().getAvatar() }}" alt="{{ comment.getUser().getFullName() }}">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{ comment.title }}</h5>
+                                <p>{{ comment.body }}</p>
+                                <div class="float-right">{{ comment.getUser().getFullName() }}</div>
+                            </div>
+                        </div>
+                        <hr />
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

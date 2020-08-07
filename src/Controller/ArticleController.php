@@ -48,8 +48,11 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('articles');
         }
 
+        $comments = $article->getComments();
+
         return $this->render('article/article.html.twig', [
-            'article' => $article,
+            'article'   => $article,
+            'comments'  => $comments
         ]);
     }
 }
