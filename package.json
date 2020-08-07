@@ -16,6 +16,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "bootstrap": "^4.5.2",
         "yarn": "^1.22.4"
     }
 }
