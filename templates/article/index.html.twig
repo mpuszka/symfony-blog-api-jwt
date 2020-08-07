@@ -7,12 +7,32 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="media">
-                    <div class="media-body">
-                        <h5 class="mt-0">Media heading</h5>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger mt-3" role="alert">
+                        {{ message }}
                     </div>
-                </div>
+                {% endfor %}
+
+                {% if articles is empty %}
+                    <div class="alert alert-danger" role="alert">
+                        Articles not found!
+                    </div>
+                {% else %}
+
+                    {% for article in articles %}
+                        <div class="media mt-5 mb-5">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{ article.title }}</h5>
+                                {{ article.body }}
+                                {{ article.body|length > 250 ? article.body|slice(0, 250) ~ '...' : article.body  }}
+                            </div>
+                        </div>
+                        <hr />
+                    {% endfor %}
+
+                {% endif %}
+
             </div>
         </div>
     </div>
