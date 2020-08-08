@@ -24,7 +24,10 @@
                         <div class="media mt-5 mb-5">
                             <div class="media-body">
                                 <h5 class="mt-0">{{ article.title }}</h5>
-                                {{ article.body|length > 250 ? article.body|slice(0, 250) ~ '...' : article.body  }}
+                                <p>
+                                    {{ article.body|length > 250 ? article.body|slice(0, 250) ~ '...' : article.body  }}
+                                </p>
+                                <a class="btn btn-primary float-right" href="{{ path('article', {id: article.id}) }}" role="button">Read more ></a>
                             </div>
                         </div>
                         <hr />
