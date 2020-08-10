@@ -11,6 +11,10 @@ use App\Entity\Comment;
 
 use App\Form\Comment\CommentType;
 
+use Symfony\Component\Messenger\MessageBusInterface;
+
+use App\Message\CommentEmailMessage;
+
 class ArticleController extends AbstractController
 {
     /**
@@ -32,7 +36,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/{id}", name="article")
      */
-    public function article(Request $request, $id) 
+    public function article(Request $request, MessageBusInterface $bus, $id) 
     {   
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
   
@@ -59,15 +63,25 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $commentRequest = $form->getData();
             $entityManager  = $this->getDoctrine()->getManager();
-            $comment        = new Comment;
-
-            $comment->setTitle($commentRequest->getTitle());
-            $comment->setBody($commentRequest->getBody());
+            $title          = $commentRequest->getTitle();
+            $body           = $commentRequest->getBody();
+            
+            $comment = new Comment;
+            $comment->setTitle($title);
+            $comment->setBody($body);
             $comment->setCreatedDate(new \DateTime());
             $comment->setArticle($article);
             $comment->setUser($this->getUser());
 
             $entityManager->persist($comment);
+
+            if (!$bus->dispatch(new CommentEmailMessage($title))) {
+                $this->addFlash(
+                    'error',
+                    'Problems with email!'
+                );
+            }
+
             $entityManager->flush();
 
             $this->addFlash(
