@@ -5,6 +5,10 @@ articles:
 article:
    path: /article/{id}
    controller: App\Controller\ArticleController::article
+
+article_edit:
+   path: /article/edit/{id}
+   controller: App\Controller\ArticleController::editArticle
    
 api_login_check:
    path: /api/login_check
