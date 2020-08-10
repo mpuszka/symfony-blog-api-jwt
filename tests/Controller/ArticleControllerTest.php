@@ -25,7 +25,7 @@ class ArticleControllerTest extends WebTestCase
     /**
      * Article repository
      *
-     * @var [type]
+     * @var object
      */
     private $articleRepository;
 
