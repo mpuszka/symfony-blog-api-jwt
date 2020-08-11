@@ -28,7 +28,7 @@ class ArticleController extends AbstractController
 
         $articles = $this->getDoctrine()
                         ->getRepository(Article::class)
-                        ->findAll();
+                        ->findBy([], ['date' => 'desc']);
         
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
@@ -148,6 +148,39 @@ class ArticleController extends AbstractController
 
         return $this->render('article/edit.html.twig', [
             'article'   => $article,
+            'form'      => $form->createView()
+        ]);
+    }
+
+    public function addArticle(Request $request) 
+    {
+        $form = $this->createForm(ArticleType::class);
+        
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $articleRequest = $form->getData();
+            $entityManager  = $this->getDoctrine()->getManager();
+
+            $article = new Article;
+            $article->setTitle($articleRequest->getTitle());
+            $article->setBody($articleRequest->getBody());
+            $article->setImage($articleRequest->getImage());
+            $article->setAuthor($this->getUser());
+            $article->setDate(new \DateTime());
+            
+            $entityManager->persist($article);
+
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Article edited successfuly!'
+            );
+
+            return $this->redirectToRoute('articles');
+        }
+
+        return $this->render('article/edit.html.twig', [
             'form'      => $form->createView()
         ]);
     }

@@ -18,7 +18,7 @@ class ArticleType extends AbstractType
             ->add('title', TextType::class)
             ->add('body', TextType::class)
             ->add('image', TextType::class)
-            ->add('Edit', SubmitType::class)
+            ->add('Submit', SubmitType::class)
         ;
     }
 

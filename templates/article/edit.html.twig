@@ -1,6 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article - {{ article.title }}!{% endblock %}
+{% set title = '' %}
+
+{% if article is defined %}
+    {% set title = article.title %}
+{% else %}
+    {% set title = 'New article' %}
+{% endif %}
+
+{% block title %}{{ title }}!{% endblock %}
 
 {% block body %}
     <div class="container">

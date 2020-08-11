@@ -2,6 +2,10 @@ articles:
    path: /
    controller: App\Controller\ArticleController::index
 
+article_add:
+   path: /article/add/
+   controller: App\Controller\ArticleController::addArticle
+
 article:
    path: /article/{id}
    controller: App\Controller\ArticleController::article
