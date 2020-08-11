@@ -13,6 +13,10 @@ article:
 article_edit:
    path: /article/edit/{id}
    controller: App\Controller\ArticleController::editArticle
+
+articles_api:
+   path: /api/articles
+   controller: App\Controller\ApiController::index
    
 api_login_check:
    path: /api/login_check
