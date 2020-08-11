@@ -132,7 +132,6 @@ class ArticleController extends AbstractController
             $article->setBody($articleRequest->getBody());
             $article->setImage($articleRequest->getImage());
             $article->setAuthor($this->getUser());
-            $article->setDate(new \DateTime());
             
             $entityManager->persist($article);
 
@@ -162,8 +161,41 @@ class ArticleController extends AbstractController
             $entityManager  = $this->getDoctrine()->getManager();
 
             $article = new Article;
+            $title = $articleRequest->getTitle();
+            $body = $articleRequest->getBody();
+            $image = $articleRequest->getImage();
+
+            if (null === $title)  {
+                $this->addFlash(
+                    'error',
+                    'Title is required!'
+                );
+
+                return $this->redirectToRoute('article_add');
+            }
+
             $article->setTitle($articleRequest->getTitle());
+
+            if (null === $body)  {
+                $this->addFlash(
+                    'error',
+                    'Body is required!'
+                );
+
+                return $this->redirectToRoute('article_add');
+            }
+
             $article->setBody($articleRequest->getBody());
+
+            if (null === $image)  {
+                $this->addFlash(
+                    'error',
+                    'Image is required!'
+                );
+
+                return $this->redirectToRoute('article_add');
+            }
+
             $article->setImage($articleRequest->getImage());
             $article->setAuthor($this->getUser());
             $article->setDate(new \DateTime());
